@@ -1,0 +1,21 @@
+# Use a specific Node.js version for reproducibility
+FROM node:20-alpine
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json to leverage Docker cache
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+RUN npm install react-router-dom @supabase/supabase-js
+
+# Copy the rest of your application code
+COPY . .
+
+# Expose the Vite development server port
+EXPOSE 5173
+
+# The command to run your development server
+CMD ["npm", "run", "dev", "--", "--host"]
